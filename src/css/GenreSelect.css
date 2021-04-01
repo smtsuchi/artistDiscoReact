@@ -1,0 +1,66 @@
+
+.main {
+    display: grid;
+    grid-template-columns: 15% 35% 35% 15%;
+    grid-template-rows: 15% 15% 15% 10% 20% 25%;
+    grid-template-areas:
+        '.  .           .           .'
+        '.  texts       texts         .'
+        '.  genre       genre       .'
+        '.  submit      submit      .'
+        '.  popularity  popularity  .'
+        '.  .           .           .';
+    height: 100%;
+    background-color: rgb(34,34,34);
+    border-radius: 20px;
+}
+@media screen and (min-width: 1025px) {
+    .main {
+        width: 26vw;
+        height: 68vh;
+        position: absolute;
+        left: 37vw;
+        top: 15vh;
+        margin-bottom: 10vh;
+        border: 1px solid black;
+    }
+}
+.text {grid-area: texts; text-align: center; color: white;}
+.genreForm {grid-area: genre;}
+.submit {grid-area: submit;}
+.tracksForm {grid-area: tracks;}
+.popularityForm {grid-area: popularity;}
+.form-control {
+    display: block;
+    font-size: 1rem;
+    width: 100%;
+    padding: 1rem .75rem;
+    line-height: 1.5;
+    color: black;
+    margin-bottom: 3rem;
+    /* overflow: scroll; */
+}
+.button {
+    display: inline-block;
+    width: 100%;
+    align-self: center;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #1ed760;
+}

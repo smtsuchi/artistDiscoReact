@@ -1,0 +1,17 @@
+.loading-gif {
+    background-image: url("https://media1.giphy.com/media/bwlAOh1hOYdxwckWYC/giphy.gif");
+    background-color: rgb(12,20,14);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+@media screen and (min-width: 1025px) {
+    .loading-gif {
+        background-image: url("https://media1.giphy.com/media/bwlAOh1hOYdxwckWYC/giphy.gif");
+        background-color: rgb(12,20,14);
+        background-position: center;
+        background-size: 26vw, 68vh;
+        background-repeat: no-repeat;
+        
+    }
+}

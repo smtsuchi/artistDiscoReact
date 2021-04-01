@@ -1,0 +1,104 @@
+.header {
+    display: grid;
+    margin-left: 1%;
+    grid-template-columns: 21.5% 21.5% 21.5% 21.5%;
+    height: 10vh;
+    max-height: 10vh;
+    grid-template-areas: 'top1 top2 top3 top4';
+    grid-gap: 4%;
+    object-fit: scale-down;
+    text-align: center;
+    background-color: rgb(34, 34, 34);
+    overflow: hidden;
+}
+
+.appbtn {grid-area: top1; display: grid; place-items: center;}
+.appbtn:hover {margin-top: .15vh ;border-top-left-radius: 20px; border-top-right-radius: 20px; background-color: rgb(28,28,28); opacity: .7;}
+.playlistbtn {grid-area: top2; display: grid; place-items: center;}
+.playlistbtn:hover {margin-top: .15vh ;border-top-left-radius: 20px; border-top-right-radius: 20px; background-color: rgb(28,28,28); opacity: .7;}
+.sparebtn {grid-area: top3; display: grid; place-items: center;}
+.sparebtn:hover {margin-top: .15vh ;border-top-left-radius: 20px; border-top-right-radius: 20px; background-color: rgb(28,28,28); opacity: .7;}
+.profbtn {grid-area: top4; display: grid; place-items: center;}
+.profbtn:hover {margin-top: .15vh ;border-top-left-radius: 20px; border-top-right-radius: 20px; background-color: rgb(28,28,28); opacity: .7;}
+.spread {width: 100%; height: 60%; position: relative; bottom:0; display: grid; place-items: center; text-decoration: none;}
+#mui { font-size: 37px;}
+/* .fas:hover {
+    opacity: 0.7;
+}
+.fab:hover {
+    opacity: .7;
+} */
+.fa-spotify {
+	/* background: black; */
+    color: white
+}
+.fa-clone {
+	/* background: black; */
+    color: white
+}
+.fa-id-badge {
+	/* background: black; */
+    color: white
+}
+.fa-user {
+	/* background:black; */
+    color:white;
+}
+.fa-music {
+	/* background: black; */
+    color: white;
+}
+.fa-user-cog {
+    /* background: black; */
+    color: white;
+}
+.fas {
+    padding: auto;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+}
+.fab {
+    padding: auto;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+}
+@media screen and (max-width: 1024px) {
+    .fas {
+        padding: 13px;
+        font-size: 30px;
+        width: 50px;
+        text-align: center;
+        text-decoration: none;
+        bottom: 0;
+    }
+    .fab {
+        padding: 13px;
+        font-size: 30px;
+        width: 50px;
+        text-align: center;
+        text-decoration: none;
+    }
+}
+@media screen and (max-width: 281px) {
+    .fas {
+        padding: 13px 4px;
+        font-size: 30px;
+        width: 50px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 0px;
+        bottom: 0;
+    }
+    .fab {
+        padding: 13px 4px;
+        font-size: 30px;
+        width: 50px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+    }
+}

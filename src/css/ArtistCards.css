@@ -1,0 +1,114 @@
+body {
+    font-family: 'Source Sans Pro',Helvetica,Arial,sans-serif;
+    overflow: hidden;
+}
+.container {
+    display: flex;
+    width: 100%;
+    height: auto;
+    border: 1px solid black;
+    justify-content: center;
+}
+.box {
+    width: 411px;
+    height: 731px;
+    /* border: 5px solid blue; */
+    background-color: rgb(34, 34, 34);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+.black-bg {
+    background-color: black;
+}
+.loading-gif {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b9/Youtube_loading_symbol_1_(wobbly).gif");
+    background-position: contain;
+    background-size: 10%;
+    background-repeat: no-repeat;
+}
+/* .cardContainer {
+    display: flex;
+    width: 411px;
+    height: 571px;
+} */
+.artistCards__cardContainer {
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+}
+.swipe {
+    position: absolute;
+    left:0;
+}
+.indivial-card {
+    /* position: absolute; */
+    height: 100%;
+    width: 100vw;
+}
+.photo-card{
+    margin: 0;
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    /* border-radius: 20px; */
+    background-size: cover;
+    background-position: center;
+}
+@media screen and (min-width: 1025px) {
+    .swipe {
+        position: absolute;
+        left: 37vw;
+    }
+    .photo-card{
+        margin: 0;
+        margin-top: 5vh;
+        position: relative;
+        width: 26vw;
+        height: 68vh;
+        border-radius: 20px;
+        background-size: cover;
+        background-position: center;
+    }
+    
+}
+.photo-card > h1 {
+    position: absolute;
+    bottom: 6vh;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    padding: 20px;
+}
+audio {
+    position: absolute;
+    bottom: 0px;
+    padding: 1vh;
+    height: 8vh;
+    width: 65%;
+}
+audio:focus {
+    outline: none;
+}
+.photo-card > p {
+    display: none;
+}
+.cardSection {
+    position: relative;
+    display: flex;
+    width: 411px;
+    max-width: 600px;
+}
+
+
+
+.homePage{
+    background-image: url("//public/assets/images/HomePage.jpg")  
+}
+
+
+#loggedin {
+    width: 411px;
+    height: 585px;
+    
+}

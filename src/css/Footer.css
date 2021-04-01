@@ -1,0 +1,32 @@
+.fa-spotify {
+	/* background: #1ed760; */
+    color: white;
+}
+.footer {
+    position: relative;
+    display: grid;
+    grid-template-columns: 10% 35% 10% 35% 10%;
+    grid-template-areas: '. ex . heart .';
+    height: 10vh;
+    bottom: 0;
+    background-color: rgb(34,34,34);
+    align-items: center;
+}
+.foot {
+    display: grid;
+    place-items: center;
+    height: 100%;
+}
+.foot:hover {
+    background-color: rgb(28,28,28);
+    opacity: .7;
+}
+#ex {font-weight: 1000; font-size: 34px;}
+.ex {grid-area: ex;}
+.heart {grid-area: heart;}
+.fa-heart {
+    color: #1ed760;
+}
+.fa-times {
+    color: #fa4a3d;
+}
