@@ -1,51 +1,63 @@
 import React, { Component } from 'react'
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { Redirect } from 'react-router-dom'
 import "../css/GenreSelect.css"
 
 export default class GenreSelect extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            playlist_artist_id: [],
-            redirect: null
+            buffer: [],
+            first_time: true,
+            redirect: null,
+            atp: this.props.settings.add_to_playlist_on_like,
+            fav: this.props.settings.fav_on_like,
+            follow: this.props.settings.follow_on_like
         }
     }
 
-    async generateArtists(e) {
+    async letsRedirect(e) {
         e.preventDefault();
-        let playlist_id=e.target[0].value;
-        let res = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks?market=US`, {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
-            }
+        const selected_index = e.target[0].options.selectedIndex;
+        const category_name = e.target[0][selected_index].innerHTML;
+        let response = await this.props.generateArtists(e);
+        let buffer = response.buffer;
+        let first_time = response.first_time;
+        
+
+        this.setState({ 
+            buffer: buffer,
+            first_time: first_time,
+            selected_index: selected_index,
+            category_name: category_name,
+            redirect: "/"
         })
-        let data = await res.json()
-        // console.log(data)
-        let playlist_artist_id = data.items.map(d => d.track.artists[0].id)
-        // let single = data.items[0].track.artists[0].id
-        console.log(playlist_artist_id)
-        this.setState({playlist_artist_id: playlist_artist_id})
-        // this.setState({artist_id: single})
-        this.setState({ redirect: "/"})
     }
+    
 
     render() {
         if (this.state.redirect) {
-            // console.log(this.state.playlist_artist_id)
-            console.log(this.state.artist_id)
-            return <Redirect to={{pathname: this.state.redirect, state: { artist_id:this.state.playlist_artist_id }}} />
+            return <Redirect to={{
+                pathname: this.state.redirect,
+                state: {
+                    artist_id:this.state.buffer,
+                    first_time:this.state.first_time,
+                    category_name:this.state.category_name,
+                    current_user_id:this.props.current_user_id,
+                    atp: this.state.atp,
+                    fav: this.state.fav,
+                    follow: this.state.follow
+                }
+            }} />
         }
+        console.log('rendering genre access')
         return (
             <div className="main">
                 <div className="text"><h1>Select a Genre</h1></div>
                 
                 <div className="genreForm">
-                    <form id='selectgenre' onSubmit={(e) => this.generateArtists(e)}>
+                    <form id='selectgenre' onSubmit={(e) => this.letsRedirect(e)}>
                         <select className='form-control' name="playlist" id="genres">
                             <option value="37i9dQZF1DX0XUsuxWHRQd">Hip Hop</option>
                             <option value="37i9dQZF1DXcBWIGoYBM5M">Pop</option>

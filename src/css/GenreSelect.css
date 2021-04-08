@@ -22,7 +22,7 @@
         left: 37vw;
         top: 15vh;
         margin-bottom: 10vh;
-        border: 1px solid black;
+        border: 2px solid #414141;
     }
 }
 .text {grid-area: texts; text-align: center; color: white;}

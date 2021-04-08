@@ -11,18 +11,8 @@ export default class Callback extends Component {
     }
 
     async componentDidMount() {
-        let res = await this.props.getCurrentUser()
-        console.log(res)
-        // const code = params.code;
-        // console.log(code)
-        // const state = params.state;
-        // const res = await fetch('http://localhost:5000/getToken'+code+'.'+state, {
-        //     method: 'GET'
-        // })
-        // const data = await res.json()
-        // console.log(data)
-        // this.setState({data:data})
-        
+        let res = await this.props.getCurrentUserData()
+        console.log('callback', res)
     }
     render() {
         if (true) {

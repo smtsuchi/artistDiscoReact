@@ -1,0 +1,114 @@
+h3 {
+    color: white;
+}
+.my-form {
+    display: grid;
+    grid-template-columns: 15% 60% 10% 15%;
+    grid-template-rows: 13% 10% 5% 11% 11% 11% 29%;
+    grid-row-gap: 2%;
+    grid-template-areas:
+        '.  .               .           .'
+        '.  cur_play        cur_play    .'
+        '.  desc            desc           .'
+        '.  atp-txt         atp         .'
+        '.  fav-txt         fav         .'
+        '.  fol-txt         fol         .'
+        '.  .           .               .';
+    width: 100%;
+    height: 100%;
+}
+.settings-view {
+    display: grid;
+    background-color: rgb(34,34,34);
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+}
+@media screen and (min-width: 1025px) {
+    .settings-view {
+        width: 26vw;
+        height: 68vh;
+        position: absolute;
+        left: 37vw;
+        top: 15vh;
+        border: 2px solid #414141;
+        border-radius: 20px;
+    }
+}
+.cur_play {grid-area: cur_play; text-align: center; color: white;}
+.atp {grid-area: atp;}
+.fav {grid-area: fav;}
+.fol {grid-area: fol;}
+.desc {grid-area: desc;}
+.desc > h3 {border-bottom: 3px solid #414141; padding-bottom: 10px}
+.border-gradient-purple {
+    border-image-slice: 1;
+    border-width: 5px;
+    border-image-source: linear-gradient(to right, #414141, rgb(34,34,34));
+}
+.atp-txt {grid-area: atp-txt;}
+.fav-txt {grid-area: fav-txt;}
+.fol-txt {grid-area: fol-txt;}
+.atp-txt { padding-right: 5%;}
+label {
+    color: white;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #1ed760;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #9da2a7;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }

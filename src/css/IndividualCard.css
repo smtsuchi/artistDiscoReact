@@ -1,0 +1,81 @@
+.my-form {
+    display: grid;
+    grid-template-columns: 15% 60% 10% 15%;
+    grid-template-rows: 13% 10% 5% 11% 11% 11% 29%;
+    grid-row-gap: 2%;
+    grid-template-areas:
+        '.  .               .           .'
+        '.  cur_play        cur_play    .'
+        '.  desc            desc           .'
+        '.  atp-txt         atp         .'
+        '.  fav-txt         fav         .'
+        '.  fol-txt         fol         .'
+        '.  .           .               .';
+    width: 100%;
+    height: 100%;
+}
+.individual-view {
+    display: grid;
+    background-color: rgb(34,34,34);
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+}
+@media screen and (min-width: 1025px) {
+    .individual-view {
+        width: 26vw;
+        height: 68vh;
+        position: absolute;
+        left: 37vw;
+        top: 15vh;
+        border: 2px solid #414141;
+        border-radius: 20px;
+    }
+}
+.single-photo{
+    margin: 0;
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    /* border-radius: 20px; */
+    background-size: cover;
+    background-position: center;
+}
+@media screen and (min-width: 1025px) {
+    .single-photo{
+        margin: 0;
+        position: relative;
+        width: 26vw;
+        height: 68vh;
+        border-radius: 20px;
+        background-size: cover;
+        background-position: center;
+    }
+    
+}
+p {
+    display: none;
+}
+.single-photo > h1 {
+    position: absolute;
+    top: 1.5vh;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    padding: 20px;
+}
+.single-photo > h2 {
+    position: absolute;
+    top: 6.5vh;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    padding: 20px;
+}
+.genres{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 10vh;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    padding: 20px;
+}
