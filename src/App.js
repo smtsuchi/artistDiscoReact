@@ -224,7 +224,7 @@ export default class App extends Component {
         <div className="media-container">
           <div className="landing-page photo">
           <SpotifyAuth
-            redirectUri='http://localhost:3000/callback'
+            redirectUri='https://artist-disco-react-frontend.web.app/callback'
             clientID='1a70ba777fec4ffd9633c0c418bdcf39'
             scopes={[Scopes.userReadPrivate, 'ugc-image-upload', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-modify', 'user-library-modify']} // either style will work
           />
