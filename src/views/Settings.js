@@ -20,7 +20,7 @@ export default class Settings extends Component {
     async componentDidMount() {
         // Get settings from database
         if (this.props.current_user_id){
-            let getres = await fetch(`/userData/settings/${this.props.current_user_id}`, {
+            let getres = await fetch(`https://artist-disco-express-backend.herokuapp.com/userData/settings/${this.props.current_user_id}`, {
                 method: "GET"
             });
             let getdata = await getres.json();
@@ -46,7 +46,7 @@ export default class Settings extends Component {
         let raw = JSON.stringify({value: newVal});
         console.log('atp', raw)
         
-        let postres = await fetch(`/atp/${this.props.current_user_id}`, {
+        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/atp/${this.props.current_user_id}`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -70,7 +70,7 @@ export default class Settings extends Component {
         
         let raw = JSON.stringify({value: newVal});
         console.log('fav', raw)
-        let postres = await fetch(`/fav/${this.props.current_user_id}`, {
+        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/fav/${this.props.current_user_id}`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -94,7 +94,7 @@ export default class Settings extends Component {
         
         let raw = JSON.stringify({value: newVal});
         console.log('follow', raw)
-        let postres = await fetch(`/follow/${this.props.current_user_id}`, {
+        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/follow/${this.props.current_user_id}`, {
             method: "POST",
             headers: {
                 "Accept": "application/json",

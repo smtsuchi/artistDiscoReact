@@ -66,7 +66,7 @@ export default class App extends Component {
   async getCurrentUserData() {
     const my_current_spotify = await this.getCurrentUser();
     console.log('getting current user data from backend');
-    let res = await fetch(`/userData/${my_current_spotify.id}`, {
+    let res = await fetch(`https://artist-disco-express-backend.herokuapp.com/userData/${my_current_spotify.id}`, {
       method: 'GET'
     })
     let data = await res.json();
@@ -105,7 +105,7 @@ export default class App extends Component {
       
       // add cover art
 
-      let postres = await fetch('/userData', {
+      let postres = await fetch('https://artist-disco-express-backend.herokuapp.com/userData', {
         method: 'POST',
         body: urlencoded
       });
@@ -131,7 +131,7 @@ export default class App extends Component {
     
     if (this.state.category_names.includes(category_name)) {
       // Load the saved database data
-      let getres = await fetch(`/category/${this.state.current_user_id}/${category_name}`, {
+      let getres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/${this.state.current_user_id}/${category_name}`, {
         method: "GET"
       })
       let getdata = await getres.json();
@@ -166,7 +166,7 @@ export default class App extends Component {
         let urlencoded = new URLSearchParams();
         urlencoded.append("category_name", category_name);
         urlencoded.append("buffer", buffer);
-        let postres = await fetch(`/category/${this.state.current_user_id}`, {
+        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/${this.state.current_user_id}`, {
           method: "POST",
           body: urlencoded
         })
@@ -224,7 +224,7 @@ export default class App extends Component {
         <div className="media-container">
           <div className="landing-page photo">
           <SpotifyAuth
-            redirectUri='https://artist-disco-react-frontend.web.app/callback'
+            redirectUri='https://artist-disco-react-frontend.web.app//callback'
             clientID='2e8c2aa7088e4efd9295059b2129a799'
             scopes={[Scopes.userReadPrivate, 'ugc-image-upload', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-modify', 'user-library-modify']} // either style will work
           />

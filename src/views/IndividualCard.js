@@ -10,7 +10,7 @@ export default class IndividualCard extends Component {
     }
 
     async componentDidMount(){
-        let getres = await fetch(`/category/single/${this.props.current_user_id}/${this.props.category_name}`, {
+        let getres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/single/${this.props.current_user_id}/${this.props.category_name}`, {
             method: "GET"
         });
         let getdata = await getres.json();
