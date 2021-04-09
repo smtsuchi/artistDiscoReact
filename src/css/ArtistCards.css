@@ -75,17 +75,40 @@ body {
 }
 .photo-card > h1 {
     position: absolute;
-    bottom: 6vh;
+    bottom: 10vh;
     color: white;
     text-shadow: 2px 2px 2px black;
     padding: 20px;
 }
-audio {
+.preview-track {
     position: absolute;
+    display: grid;
+    grid-template-columns: 5% 21% 55% 15%;
+    grid-template-rows: 30% 70%;
+    grid-column-gap: 2%;
+    grid-template-areas:
+        '.  thmbnl  tckr    .'
+        '.  thmbnl  adctrl  .';
     bottom: 0px;
-    padding: 1vh;
-    height: 8vh;
-    width: 65%;
+    left: 0px;
+    height: 12vh;
+    width: 100%;
+}
+.thmbnl {grid-area: thmbnl;}
+.ticker {grid-area: tckr;}
+.adctrl {grid-area: adctrl;}
+.preview-track > img {
+    height:10vh;
+    box-shadow: -1px 1px 10px black;
+}
+.tckr {
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    white-space: nowrap;
+}
+audio {
+    height: 6vh;
+    width: 100%;
 }
 audio:focus {
     outline: none;

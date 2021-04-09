@@ -8,7 +8,7 @@
         '.  texts       texts         .'
         '.  genre       genre       .'
         '.  submit      submit      .'
-        '.  popularity  popularity  .'
+        '.  loggedin    loggedin  .'
         '.  .           .           .';
     height: 100%;
     background-color: rgb(34,34,34);
@@ -29,7 +29,7 @@
 .genreForm {grid-area: genre;}
 .submit {grid-area: submit;}
 .tracksForm {grid-area: tracks;}
-.popularityForm {grid-area: popularity;}
+.loggedin {grid-area: loggedin; text-align: center; color: white;}
 .form-control {
     display: block;
     font-size: 1rem;
@@ -64,3 +64,4 @@
     user-select: none;
     background-color: #1ed760;
 }
+/* #login-btn{ width: 50%; position: relative; bottom: 0} */

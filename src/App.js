@@ -22,19 +22,26 @@ export default class App extends Component {
       current_user: '',
       current_user_id: '',
       category_names: [],
-      settings: {current_playlist: null}
+      settings: {current_playlist: null, add_to_playlist_on_like: true, follow_on_like: true, fav_on_like: true},
+      my_playlist: ''
     }
     this.getCurrentUser = this.getCurrentUser.bind(this);
     this.getCurrentUserData = this.getCurrentUserData.bind(this);
     this.generateArtists = this.generateArtists.bind(this);
     this.reset = this.reset.bind(this);
-
-    
-
+    this.updateSettings = this.updateSettings.bind(this);
+    this.checkLogin = this.checkLogin.bind(this);
   }
 
   reset(){
     this.setState({access_token: 'expired'})
+  }
+
+  updateSettings(atp, follow, fav) {
+    let updatedSettings = {current_playlist: this.state.settings.current_playlist, add_to_playlist_on_like: atp, follow_on_like: follow, fav_on_like: fav}
+    this.setState({
+      settings: updatedSettings
+    })
   }
 
   async getCurrentUser() {
@@ -69,24 +76,47 @@ export default class App extends Component {
         current_user: my_current_spotify.display_name,
         current_user_id: my_current_spotify.id,
         category_names: data.category_names,
-        settings: data.settings
+        settings: data.settings,
+        my_playlist: data.my_playlist
       })
       return data
     } else {
       // Create User Profile
       let urlencoded = new URLSearchParams();
       urlencoded.append("user_id", my_current_spotify.id);
+
+      let raw = JSON.stringify({
+        "name": "Curated by Artist Disco",
+        "description": "Your new playlist playlist curated by Artist Disco! Ever time you swipe right, your songs will be added here.",
+        "public": true
+      });
+      let playlist_res = await fetch(`https://api.spotify.com/v1/users/${my_current_spotify.id}/playlists`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
+        },
+        body: raw
+      });
+      let playlist_data = await playlist_res.json();
+      // console.log('playlist_data', playlist_data)
+      urlencoded.append("my_playlist", playlist_data.id);
+      
+      // add cover art
+
       let postres = await fetch('/userData', {
         method: 'POST',
         body: urlencoded
-      })
-      let postdata = await postres.json()
+      });
+      let postdata = await postres.json();
       console.log('just created a new user', postdata)
       this.setState({
         current_user: my_current_spotify.display_name,
         current_user_id: my_current_spotify.id,
         category_names: postdata.createdUser.category_names,
-        settings: postdata.createdUser.settings
+        settings: postdata.createdUser.settings,
+        my_playlist: playlist_data.id
       })
       return postdata
     }
@@ -157,6 +187,15 @@ export default class App extends Component {
     }
   }
 
+  checkLogin(){
+    let loggedin = true;
+    let current_user_name = this.state.current_user;
+    if (current_user_name) {
+      return {loggedin, current_user_name}
+    }
+    return {loggedin: false, current_user_name}
+  }
+
   render () {
     const token = Cookies.get('spotifyAuthToken')
     return (
@@ -164,13 +203,13 @@ export default class App extends Component {
         {token||this.state.current_user_id ? (
         <SpotifyApiContext.Provider value={token}>
           {/* Your Spotify Code here */}
-          <Header settings={this.state.settings} current_user_id={this.state.current_user_id}/>
+          <Header my_playlist={this.state.my_playlist} settings={this.state.settings} current_user_id={this.state.current_user_id}/>
             <Switch>
               <Route path="/callback" render={() => <Callback getCurrentUser={this.getCurrentUser} getCurrentUserData={this.getCurrentUserData} token={token}/>} />
               <Route exact path="/"component={SwipePage} render={() => <SwipePage />} />
               <Route exact path="/artistdetails"  render={() => <IndividualCard current_user_id={this.state.current_user_id} category_name={this.state.settings.current_playlist} />} />
-              <Route exact path="/settings" render={() => <Settings current_user_id={this.state.current_user_id} settings={this.state.settings} />} />
-              <Route exact path="/genreselect" render={() => <GenreSelect settings={this.state.settings} generateArtists={this.generateArtists} current_user_id={this.state.current_user_id} category_names={this.state.category_names}/>} />
+              <Route exact path="/settings" render={() => <Settings updateSettings={this.updateSettings} current_user_id={this.state.current_user_id} settings={this.state.settings} />} />
+              <Route exact path="/genreselect" render={() => <GenreSelect checkLogin={this.checkLogin} my_playlist={this.state.my_playlist} settings={this.state.settings} generateArtists={this.generateArtists} current_user_id={this.state.current_user_id} category_names={this.state.category_names}/>} />
               <Route exact path="/login" render={() => <Login reset={this.reset} /> }  />
               
               {/* Header */}
@@ -187,7 +226,7 @@ export default class App extends Component {
           <SpotifyAuth
             redirectUri='http://localhost:3000/callback'
             clientID='1a70ba777fec4ffd9633c0c418bdcf39'
-            scopes={[Scopes.userReadPrivate, 'user-read-email']} // either style will work
+            scopes={[Scopes.userReadPrivate, 'ugc-image-upload', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-modify', 'user-library-modify']} // either style will work
           />
           </div>
         </div>

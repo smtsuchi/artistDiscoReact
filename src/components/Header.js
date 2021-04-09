@@ -4,14 +4,15 @@ import "../css/Header.css";
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 
 export default class Header extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             redirect: null,
             category_name: '',
             atp: true,
             fav: true,
             follow: true,
+            my_playlist: this.props.my_playlist
 
         }
         this.regenerateArtists = this.regenerateArtists.bind(this);
@@ -46,7 +47,8 @@ export default class Header extends Component {
                     current_user_id:this.props.current_user_id,
                     atp: this.state.atp,
                     fav: this.state.fav,
-                    follow: this.state.follow
+                    follow: this.state.follow,
+                    my_playlist: this.props.my_playlist
                 }
             }} />
         }

@@ -35,6 +35,7 @@ export default class Settings extends Component {
     
     handleATP = async (event) => {
         let newVal = !this.state.add_to_playlist_on_like
+        this.props.updateSettings(newVal, this.state.follow_on_like, this.state.fav_on_like);
         this.setState((prevState) => {
            return {
                 ...prevState,
@@ -59,6 +60,7 @@ export default class Settings extends Component {
 
     handleFav = async (event) => {
         let newVal = !this.state.fav_on_like
+        this.props.updateSettings(this.state.add_to_playlist_on_like, this.state.follow_on_like, newVal)
         this.setState((prevState) => {
            return {
                 ...prevState,
@@ -82,6 +84,7 @@ export default class Settings extends Component {
 
     handleFollow = async (event) => {
         let newVal = !this.state.follow_on_like
+        this.props.updateSettings(this.state.add_to_playlist_on_like, newVal, this.state.fav_on_like)
         this.setState((prevState) => {
             return {
                 ...prevState,

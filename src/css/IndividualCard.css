@@ -40,6 +40,7 @@
     /* border-radius: 20px; */
     background-size: cover;
     background-position: center;
+   
 }
 @media screen and (min-width: 1025px) {
     .single-photo{
@@ -56,26 +57,17 @@
 p {
     display: none;
 }
-.single-photo > h1 {
-    position: absolute;
-    top: 1.5vh;
-    color: white;
-    text-shadow: 2px 2px 2px black;
-    padding: 20px;
-}
-.single-photo > h2 {
-    position: absolute;
-    top: 6.5vh;
+.info {
+    display: flex;
+    flex-direction: column;
     color: white;
     text-shadow: 2px 2px 2px black;
     padding: 20px;
 }
 .genres{
-    position: absolute;
     display: flex;
     flex-direction: column;
-    top: 10vh;
     color: white;
     text-shadow: 2px 2px 2px black;
-    padding: 20px;
+    padding-top: 5px;
 }

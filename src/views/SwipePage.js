@@ -52,15 +52,42 @@ export default class SwipePage extends Component {
         let data = await res.json();
         // console.log(data);
         let track_num=0;
-        if (data.tracks.length === 0) { return null}
+        if (data.tracks.length === 0) {
+            return {
+                preview_url: null,
+                track_id: null,
+                track_name: null,
+                track_thumbnail: null
+            };
+        }
         while (!data.tracks[track_num].preview_url) {
             track_num++;
             if (track_num>data.tracks.length-1) {track_num--; break;}
         }
         if (data.tracks[track_num].preview_url) {
-            return data.tracks[track_num].preview_url;
+            const myTrack=data.tracks[track_num]
+            let track_thumbnail = null;
+            if (myTrack.album.images && myTrack.album.images[0]){
+                track_thumbnail = myTrack.album.images[0].url
+            } 
+            return {
+                preview_url: myTrack.preview_url,
+                track_id: myTrack.id,
+                track_name: myTrack.name,
+                track_thumbnail: track_thumbnail
+            };
         }
-        return  null
+        let myTrack=data.tracks[0]
+        let track_thumbnail = null;
+        if (myTrack.album.images && myTrack.album.images[0]){
+            track_thumbnail = myTrack.album.images[0].url
+        } 
+        return {
+            preview_url: myTrack.preview_url,
+            track_id: myTrack.id,
+            track_name: myTrack.name,
+            track_thumbnail: track_thumbnail
+        };
     }
 
     async getRelatedArtists(artist_id, remaining_deck_length) {
@@ -78,8 +105,15 @@ export default class SwipePage extends Component {
             let filtered_data = data.artists.filter(artist => {if (checklist.has(artist.id)) {checklist.delete(artist.id); return true} return false}).filter(artist => ((!this.state.visited.has(artist.id)&&!current_ids_on_table.includes(artist.id))&&artist.images.length>0))
 
             for (let i = 0; i<filtered_data.length; i++) {
-                let track_preview= await this.getTopTracks(filtered_data[i].id);
+                let track_details= await this.getTopTracks(filtered_data[i].id);
+                const track_preview = track_details.preview_url;
+                const track_id = track_details.track_id
+                const track_name = track_details.track_name
+                const track_thumbnail = track_details.track_thumbnail
                 filtered_data[i].track_preview = track_preview;
+                filtered_data[i].track_id = track_id;
+                filtered_data[i].track_name = track_name;
+                filtered_data[i].track_thumbnail = track_thumbnail;
             }
             current_artist = filtered_data.concat(current_artist)
             let child_refs = Array(current_artist.length).fill(0).map(i => React.createRef())
@@ -182,8 +216,19 @@ export default class SwipePage extends Component {
     }
 
     follow(artist_id) {
-        if (this.props.current_user_id){
-            fetch(`https://api.spotify.com/v1/me/following?type=artist&ids=${artist_id}`, {
+        fetch(`https://api.spotify.com/v1/me/following?type=artist&ids=${artist_id}`, {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
+            }
+        });
+        console.log('follow');
+    }
+    fav(track_id) {
+        if (track_id){
+            fetch(`https://api.spotify.com/v1/me/tracks?ids=${track_id}`, {
                 method: "PUT",
                 headers: {
                     "Accept": "application/json",
@@ -191,22 +236,24 @@ export default class SwipePage extends Component {
                     "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
                 }
             });
+            console.log('fav');
         }
+        else { console.log('no available track') }
     }
-    fav(track_id) {
-        if (this.props.current_user_id){
-            if (track_id){
-                fetch(`https://api.spotify.com/v1/me/tracks?ids=${track_id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
-                    }
-                });
-            }
-            else { console.log('no available track') }
+    atp(track_id) {
+        const playlist_id = this.props.location.state.my_playlist
+        if (track_id){
+            fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks?uris=spotify%3Atrack%3A${track_id}`, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
+                }
+            });
+            console.log('atp');
         }
+        else { console.log("Couldn't add son to playlist") }
     }
 
     onSwipe = (direction, artistObject) => {
@@ -222,8 +269,8 @@ export default class SwipePage extends Component {
             
             this.setState({ liked: this.state.liked.concat(artistObject.id) })
             this.updateLiked(artistObject.id);
-            if (short.atp){}
-            if (short.fav){}
+            if (short.atp){this.atp(artistObject.track_id)}
+            if (short.fav){this.fav(artistObject.track_id)}
             if (short.follow){this.follow(artistObject.id)}
         }
     }
@@ -311,7 +358,10 @@ export default class SwipePage extends Component {
             return <Redirect to='/login'/>
         }
         return (
-            <div className="swipePage  loading-gif">
+            <div className="swipePage">
+                <div className="media-container">
+                    <div className="loading-gif"></div>
+                </div>
                 <div id="deck" className="artistCards__cardContainer">
                     {this.state.artists
                     // .filter(artist => (!this.state.visited.has(artist.id)))
