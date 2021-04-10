@@ -44,7 +44,7 @@ export default class Settings extends Component {
         })
         
         let raw = JSON.stringify({value: newVal});
-        console.log('atp', raw)
+        // console.log('atp', raw)
         
         let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/atp/${this.props.current_user_id}`, {
             method: "POST",
@@ -55,7 +55,7 @@ export default class Settings extends Component {
             body: raw
         });
         let postdata = await postres.json();
-        console.log(postdata);
+        // console.log(postdata);
     }
 
     handleFav = async (event) => {
@@ -69,7 +69,7 @@ export default class Settings extends Component {
         });
         
         let raw = JSON.stringify({value: newVal});
-        console.log('fav', raw)
+        // console.log('fav', raw)
         let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/fav/${this.props.current_user_id}`, {
             method: "POST",
             headers: {
@@ -79,7 +79,7 @@ export default class Settings extends Component {
             body: raw
         });
         let postdata = await postres.json();
-        console.log(postdata);
+        // console.log(postdata);
     }
 
     handleFollow = async (event) => {
@@ -93,7 +93,7 @@ export default class Settings extends Component {
         })
         
         let raw = JSON.stringify({value: newVal});
-        console.log('follow', raw)
+        // console.log('follow', raw)
         let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/follow/${this.props.current_user_id}`, {
             method: "POST",
             headers: {
@@ -103,7 +103,7 @@ export default class Settings extends Component {
             body: raw
         });
         let postdata = await postres.json();
-        console.log(postdata);
+        // console.log(postdata);
     }
     
     render() {

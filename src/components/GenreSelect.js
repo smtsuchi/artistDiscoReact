@@ -54,7 +54,8 @@ export default class GenreSelect extends Component {
                         current_user_id:this.props.current_user_id,
                         atp: this.state.atp,
                         fav: this.state.fav,
-                        follow: this.state.follow
+                        follow: this.state.follow,
+                        my_playlist: this.props.my_playlist
                     }
                 }} />)
             } else if (this.state.redirect==="/callback"){

@@ -117,7 +117,7 @@ export default class SwipePage extends Component {
             }
             current_artist = filtered_data.concat(current_artist)
             let child_refs = Array(current_artist.length).fill(0).map(i => React.createRef())
-            console.log('updated deck', current_artist);
+            // console.log('updated deck', current_artist);
 
 
             // update db with cards_on_table, used, child_refs
@@ -145,12 +145,12 @@ export default class SwipePage extends Component {
                 body: raw
             })
             let postdata = await postres.json()
-            console.log(`updated ${this.props.location.state.category_name} category: `, postdata)
+            // console.log(`updated ${this.props.location.state.category_name} category: `, postdata)
 
-            console.log('spotify api response', data);
+            // console.log('spotify api response', data);
         }
         else {
-            console.log('No Token.. Redirecting')
+            // console.log('No Token.. Redirecting')
             this.setState({redirect:'/login'})
 
         }
@@ -170,7 +170,7 @@ export default class SwipePage extends Component {
             }
             else {
                 //grab data from database then set state to re-render
-                console.log('else')
+                // console.log('else')
 
                 let getres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/${this.props.location.state.current_user_id}/${category_name}`, {
                     method: 'GET'
@@ -191,11 +191,11 @@ export default class SwipePage extends Component {
                 })
             }
             // this.exButton = React.createRef()
-            console.log('mounted again..')
+            // console.log('mounted again..')
             // else {this.getRelatedArtists(this.state.liked[this.state.liked_count])}
         }
         else {
-            console.log('No State.. Redirecting')
+            // console.log('No State.. Redirecting')
             this.setState({redirect:'/login'})
         }
 
@@ -213,7 +213,7 @@ export default class SwipePage extends Component {
             body: raw
         })
         let postdata = await postres.json()
-        console.log(`updated ${this.props.location.state.category_name} liked : `, postdata)
+        // console.log(`updated ${this.props.location.state.category_name} liked : `, postdata)
     }
 
     follow(artist_id) {
@@ -225,7 +225,7 @@ export default class SwipePage extends Component {
                 "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
             }
         });
-        console.log('follow');
+        // console.log('follow');
     }
     fav(track_id) {
         if (track_id){
@@ -237,9 +237,11 @@ export default class SwipePage extends Component {
                     "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
                 }
             });
-            console.log('fav');
+            // console.log('fav');
         }
-        else { console.log('no available track') }
+        else {
+            // console.log('no available track')
+        }
     }
     atp(track_id) {
         const playlist_id = this.props.location.state.my_playlist
@@ -252,9 +254,11 @@ export default class SwipePage extends Component {
                     "Authorization": "Bearer " + Cookies.get('spotifyAuthToken')
                 }
             });
-            console.log('atp');
+            // console.log('atp');
         }
-        else { console.log("Couldn't add son to playlist") }
+        else {
+            // console.log("Couldn't add song to playlist")
+        }
     }
 
     onSwipe = (direction, artistObject) => {
@@ -262,11 +266,11 @@ export default class SwipePage extends Component {
         for (let i=0; i<sounds.length; i++) sounds[i].pause();
 
         if (direction === 'left') {
-            console.log('Swiped left on ' + artistObject.name)
+            // console.log('Swiped left on ' + artistObject.name)
         }
         else if (direction === 'right') {
             let short = this.props.location.state
-            console.log('Swiped right on ' + artistObject.name)
+            // console.log('Swiped right on ' + artistObject.name)
             
             this.setState({ liked: this.state.liked.concat(artistObject.id) })
             this.updateLiked(artistObject.id);
@@ -293,7 +297,7 @@ export default class SwipePage extends Component {
         // Make sure the next card gets removed next time if this card do not have time to exit the screen
           this.state.childRefs[indexToBeRemoved].current.swipe(direction) // Swipe the card!
         }
-        console.log('Button Swipe: ', direction)
+        // console.log('Button Swipe: ', direction)
     }
 
     async updateAfterLeaveScreen(visited, artists) {
@@ -309,11 +313,11 @@ export default class SwipePage extends Component {
             body: raw
         })
         let postdata = await postres.json()
-        console.log(`updated ${this.props.location.state.category_name} visited and artists (on table) : `, postdata)
+        // console.log(`updated ${this.props.location.state.category_name} visited and artists (on table) : `, postdata)
     }
 
     onCardLeftScreen(myName, myIdentifier) {
-        console.log(myName + ' left the screen');
+        // console.log(myName + ' left the screen');
         this.exButton.current.removeAttribute("disabled");
         
         let visited = new Set(this.state.visited).add(myIdentifier)
@@ -321,7 +325,7 @@ export default class SwipePage extends Component {
 
         let newArtists=this.state.artists.filter(artist => artist.id !== myIdentifier)
         let deckLength=document.getElementById("deck").getElementsByClassName("individual-card").length;
-        console.log('deck length: ', deckLength);
+        // console.log('deck length: ', deckLength);
         
         this.setState({ 
             visited: visited,
@@ -345,7 +349,7 @@ export default class SwipePage extends Component {
             else {
                 for (let playlistArtist of this.state.buffer) {
                     if (!this.state.used.includes(playlistArtist)) {
-                        console.log(playlistArtist);
+                        // console.log(playlistArtist);
                         this.getRelatedArtists(playlistArtist);
                         break;
                     }

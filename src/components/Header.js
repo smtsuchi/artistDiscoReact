@@ -19,7 +19,7 @@ export default class Header extends Component {
     }
     
     regenerateArtists() {
-        console.log('regen')
+        // console.log('regen')
         if (this.props.settings) {
             if (this.props.settings.current_playlist){
                 // Load the saved database data

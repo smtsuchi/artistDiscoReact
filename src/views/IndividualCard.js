@@ -14,7 +14,7 @@ export default class IndividualCard extends Component {
             method: "GET"
         });
         let getdata = await getres.json();
-        console.log(getdata)
+        // console.log(getdata)
         this.setState({
             current_artist: getdata.individual_card
         })

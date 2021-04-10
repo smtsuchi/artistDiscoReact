@@ -12,7 +12,7 @@ export default class Callback extends Component {
 
     async componentDidMount() {
         let res = await this.props.getCurrentUserData()
-        console.log('callback', res)
+        // console.log('callback', res)
     }
     render() {
         if (true) {

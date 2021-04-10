@@ -45,7 +45,7 @@ export default class App extends Component {
   }
 
   async getCurrentUser() {
-    console.log('getting current user');
+    // console.log('getting current user');
     let res = await fetch('	https://api.spotify.com/v1/me', {
       method: 'GET',
       headers: {
@@ -55,7 +55,7 @@ export default class App extends Component {
       }
     })
     let data = await res.json();
-    console.log('spotify get cur_user', data)
+    // console.log('spotify get cur_user', data)
     // this.setState({
     //   current_user: data.display_name,
     //   current_user_id: data.id
@@ -65,12 +65,12 @@ export default class App extends Component {
 
   async getCurrentUserData() {
     const my_current_spotify = await this.getCurrentUser();
-    console.log('getting current user data from backend');
+    // console.log('getting current user data from backend');
     let res = await fetch(`https://artist-disco-express-backend.herokuapp.com/userData/${my_current_spotify.id}`, {
       method: 'GET'
     })
     let data = await res.json();
-    console.log('this backend', data)
+    // console.log('this backend', data)
     if (data) {
       this.setState({
         current_user: my_current_spotify.display_name,
@@ -110,7 +110,7 @@ export default class App extends Component {
         body: urlencoded
       });
       let postdata = await postres.json();
-      console.log('just created a new user', postdata)
+      // console.log('just created a new user', postdata)
       this.setState({
         current_user: my_current_spotify.display_name,
         current_user_id: my_current_spotify.id,
@@ -171,7 +171,7 @@ export default class App extends Component {
           body: urlencoded
         })
         let postdata = await postres.json()
-        console.log(postdata)
+        // console.log(postdata)
 
         let mySettings = this.state.settings;
         mySettings.current_playlist = category_name;
