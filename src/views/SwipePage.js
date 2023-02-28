@@ -6,7 +6,7 @@ import "../css/SwipePage.css"
 import Footer from '../components/Footer';
 import ArtistCards from '../components/ArtistCards';
 import { Redirect } from 'react-router-dom';
-
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 // const alreadyRemoved = [];
 // let charactersState = 'hi';
 export default class SwipePage extends Component {
@@ -99,6 +99,7 @@ export default class SwipePage extends Component {
                 }
             })
             let data = await res.json()
+            if (data.artists.length === 0) {return "empty"}
             let current_artist = this.state.artists.slice(0,remaining_deck_length);
             let current_ids_on_table = current_artist.map(artist => artist.id)
             let checklist=new Set(data.artists.map(artist => artist.id))
@@ -135,7 +136,7 @@ export default class SwipePage extends Component {
             })
             
             // console.log('raw: ', raw)
-            let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/patch-category/${this.props.location.state.current_user_id}/${this.props.location.state.category_name}`, {
+            let postres = await fetch(`${REACT_APP_BACKEND_URL}/patch-category/${this.props.location.state.current_user_id}/${this.props.location.state.category_name}`, {
                 method: 'POST',
                 headers: {
                     "Accept": "application/json",
@@ -145,6 +146,9 @@ export default class SwipePage extends Component {
                 body: raw
             })
             let postdata = await postres.json()
+
+            console.log(postdata)
+            return "done"
             // console.log(`updated ${this.props.location.state.category_name} category: `, postdata)
 
             // console.log('spotify api response', data);
@@ -172,7 +176,7 @@ export default class SwipePage extends Component {
                 //grab data from database then set state to re-render
                 // console.log('else')
 
-                let getres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/${this.props.location.state.current_user_id}/${category_name}`, {
+                let getres = await fetch(`${REACT_APP_BACKEND_URL}/category/${this.props.location.state.current_user_id}/${category_name}`, {
                     method: 'GET'
                 });
                 let getdata = await getres.json()
@@ -203,7 +207,7 @@ export default class SwipePage extends Component {
 
     async updateLiked(artist_id) {
         let raw = JSON.stringify({artist_id:artist_id});
-        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/patch-category-liked/${this.props.location.state.current_user_id}/${this.props.location.state.category_name}`, {
+        let postres = await fetch(`${REACT_APP_BACKEND_URL}/patch-category-liked/${this.props.location.state.current_user_id}/${this.props.location.state.category_name}`, {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -213,6 +217,7 @@ export default class SwipePage extends Component {
             body: raw
         })
         let postdata = await postres.json()
+        console.log(postdata)
         // console.log(`updated ${this.props.location.state.category_name} liked : `, postdata)
     }
 
@@ -281,12 +286,7 @@ export default class SwipePage extends Component {
     }
 
     swipe = (direction) => {
-        // if (document.getElementById("deck")){
-        //     let top_card = document.getElementById("deck").getElementsByClassName("individual-card");
-        //     console.log('hi', top_card)
-        //     let card = document.getElementById("360IAlyVv4PCEVjgyMZrxK");
-        //     console.log('card', card)
-        // }
+       
         const cardsLeft = this.state.artists //.filter(person => !alreadyRemoved.includes(person.name))
         if (cardsLeft.length) {
             let indexToBeRemoved = cardsLeft.length - 1 // Find the card object to be removed
@@ -303,7 +303,7 @@ export default class SwipePage extends Component {
     async updateAfterLeaveScreen(visited, artists) {
         let visitedArr = Array.from(visited)
         let raw = JSON.stringify({visited: visitedArr, artists: artists});
-        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/patch-category-leave-screen/${this.props.location.state.current_user_id}/${this.props.location.state.category_name}`, {
+        let postres = await fetch(`${REACT_APP_BACKEND_URL}/patch-category-leave-screen/${this.props.location.state.current_user_id}/${this.props.location.state.category_name}`, {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -313,6 +313,7 @@ export default class SwipePage extends Component {
             body: raw
         })
         let postdata = await postres.json()
+        console.log(postdata)
         // console.log(`updated ${this.props.location.state.category_name} visited and artists (on table) : `, postdata)
     }
 

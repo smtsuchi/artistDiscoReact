@@ -13,18 +13,35 @@ import Settings from "./views/Settings"
 import IndividualCard from "./views/IndividualCard";
 import Login from "./components/Login";
 
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+const REACT_APP_SPOTIFIY_CLIENT_ID = process.env.REACT_APP_SPOTIFIY_CLIENT_ID
+const REACT_APP_SPOTIFIY_CLIENT_SECRET = process.env.REACT_APP_SPOTIFIY_CLIENT_SECRET
+
 export default class App extends Component {
   constructor() {
     super();
 
-    this.state = {
-      access_token: Cookies.get('spotifyAuthToken'),
-      current_user: '',
-      current_user_id: '',
-      category_names: [],
-      settings: {current_playlist: null, add_to_playlist_on_like: true, follow_on_like: true, fav_on_like: true},
-      my_playlist: ''
-    }
+    const spotifyUser = localStorage.getItem('spotifyUser');
+    // if (spotifyUser){
+    //   const foundUser = JSON.parse(spotifyUser);
+    //   this.state = {
+    //     access_token: Cookies.get('spotifyAuthToken'),
+    //     current_user: foundUser.current_user,
+    //     current_user_id: foundUser.current_user_id,
+    //     category_names: foundUser.category_names,
+    //     settings: foundUser.settings,
+    //     my_playlist: foundUser.my_playlist
+    //   }
+    // } else {
+      this.state = {
+        access_token: Cookies.get('spotifyAuthToken'),
+        current_user: '',
+        current_user_id: '',
+        category_names: [],
+        settings: {current_playlist: null, add_to_playlist_on_like: true, follow_on_like: true, fav_on_like: true},
+        my_playlist: ''
+      }
+    // }
     this.getCurrentUser = this.getCurrentUser.bind(this);
     this.getCurrentUserData = this.getCurrentUserData.bind(this);
     this.generateArtists = this.generateArtists.bind(this);
@@ -66,19 +83,21 @@ export default class App extends Component {
   async getCurrentUserData() {
     const my_current_spotify = await this.getCurrentUser();
     // console.log('getting current user data from backend');
-    let res = await fetch(`https://artist-disco-express-backend.herokuapp.com/userData/${my_current_spotify.id}`, {
+    let res = await fetch(`${REACT_APP_BACKEND_URL}/userData/${my_current_spotify.id}`, {
       method: 'GET'
     })
     let data = await res.json();
     // console.log('this backend', data)
     if (data) {
-      this.setState({
+      const user={
         current_user: my_current_spotify.display_name,
         current_user_id: my_current_spotify.id,
         category_names: data.category_names,
         settings: data.settings,
         my_playlist: data.my_playlist
-      })
+      }
+      this.setState(user)
+      localStorage.setItem('spotifyUser', JSON.stringify(user ))
       return data
     } else {
       // Create User Profile
@@ -105,7 +124,7 @@ export default class App extends Component {
       
       // add cover art
 
-      let postres = await fetch('https://artist-disco-express-backend.herokuapp.com/userData', {
+      let postres = await fetch(`${REACT_APP_BACKEND_URL}/userData`, {
         method: 'POST',
         body: urlencoded
       });
@@ -131,7 +150,7 @@ export default class App extends Component {
     
     if (this.state.category_names.includes(category_name)) {
       // Load the saved database data
-      let getres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/${this.state.current_user_id}/${category_name}`, {
+      let getres = await fetch(`${REACT_APP_BACKEND_URL}/category/${this.state.current_user_id}/${category_name}`, {
         method: "GET"
       })
       let getdata = await getres.json();
@@ -166,7 +185,7 @@ export default class App extends Component {
         let urlencoded = new URLSearchParams();
         urlencoded.append("category_name", category_name);
         urlencoded.append("buffer", buffer);
-        let postres = await fetch(`https://artist-disco-express-backend.herokuapp.com/category/${this.state.current_user_id}`, {
+        let postres = await fetch(`${REACT_APP_BACKEND_URL}/category/${this.state.current_user_id}`, {
           method: "POST",
           body: urlencoded
         })
@@ -225,7 +244,7 @@ export default class App extends Component {
           <div className="landing-page photo">
           <SpotifyAuth
             redirectUri='https://artist-disco-react-frontend.web.app/callback'
-            clientID='2e8c2aa7088e4efd9295059b2129a799'
+            clientID={REACT_APP_SPOTIFIY_CLIENT_ID}
             scopes={[Scopes.userReadPrivate, 'ugc-image-upload', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-modify', 'user-library-modify']} // either style will work
           />
           </div>
